@@ -1,4 +1,4 @@
-DataStructure-StudentManagement
+数据结构设计 - 学生信息管理
 ===============================
 
 Data Sturcture Course 2014
