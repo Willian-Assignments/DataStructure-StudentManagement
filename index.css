@@ -1,0 +1,75 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+
+body{
+	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.no-wrap{
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+}
+#console{
+
+	position: fixed;
+	border: 3px black solid;
+	height: 200px;
+	z-index: 10;
+	left:0px;
+	right:0px;
+	bottom: 0px;
+	background-color: white;	
+	color: gray;
+	
+	font-size: 13px;
+}
+#console:hover{
+	color: black;
+}
+#logs{
+	position: absolute;
+	display: block;
+	background-color: white;
+	top:2px;
+	bottom: 16px;
+	left: 0px;
+	right:2px;
+	overflow-y:scroll;
+	padding-left: 2px;
+	padding-bottom: 4px;
+}
+	#logs .log{
+		width: 100%;
+		height:14px;
+	}
+	#logs .log:hover{
+		font-weight: bold;
+	}
+#command-line{
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	height: 15px;
+	left: 0px;
+	right:2px;
+	display: block;
+	border-top: solid 1px black;
+	background-color: white;
+}
+	#command-line input{
+		 display: block;
+		 width: 100%;
+		 color: gray;
+		 background-color: white;
+		 border: 1px solid white;
+		 
+	}
+	#command-line input:focus{
+		color: black;
+	}
+	#command-line input:disabled{
+		background-color: #eeeeee;
+		border-color: #eeeeee;
+	}

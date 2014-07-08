@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="charset" content="UTF-8">
+		<meta charset="utf-8">
 		<title>数据结构设计 - 学生信息管理</title>
 		<link rel="stylesheet" type="text/css" href="index.css" />
 		<script src="jquery-1.11.1.min.js"></script>
 		<script src="controller.js"></script>
 		<script src="view.js"></script>
 		<script src="main.js"></script>
+		<script src="console.js"></script>
 	</head>
 	<body>
 		<div id="UI"></div>
-		<div id="console"></div>
+		<div id="console">
+			<div id="logs" class="no-wrap">
+				<div class="log">=== Welcome to Student Management Shell ===</div>
+			</div>
+
+			<div id="command-line" class="no-wrap">
+				<input type="text" class="no-wrap" />
+			</div>
+		</div>
+		<script>
+		console();
+		</script>
 	</body>
 </html>
