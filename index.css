@@ -14,7 +14,7 @@ body{
 #console{
 
 	position: fixed;
-	border: 3px black solid;
+	border: 3px gray solid;
 	height: 200px;
 	z-index: 10;
 	left:0px;
@@ -27,6 +27,7 @@ body{
 }
 #console:hover{
 	color: black;
+	border-color: black;
 }
 #logs{
 	position: absolute;
@@ -53,7 +54,7 @@ body{
 	bottom: 0px;
 	height: 15px;
 	left: 0px;
-	right:2px;
+	right:0px;
 	display: block;
 	border-top: solid 1px black;
 	background-color: white;
@@ -64,7 +65,7 @@ body{
 		 color: gray;
 		 background-color: white;
 		 border: 1px solid white;
-		 
+		 font-size: 12px;
 	}
 	#command-line input:focus{
 		color: black;

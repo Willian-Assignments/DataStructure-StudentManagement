@@ -20,6 +20,7 @@ var console =function(){
 	}
 	var initCommands = function(){
 		commands.help = shellHelp;
+		commands.clear = logsClear;
 	}
 	var setPrefix = function(){
 		prefix = method + promptMark;
@@ -45,26 +46,31 @@ var console =function(){
 		fixPrefix();
 		if ( e.keyCode==13 )
 		{
-			var content = $(commandInput).val();
-			$(commandInput).attr('disabled',true);
-			$(commandInput).val('');
-			if(getPrefixPosition(content) == 0){		
-				var command = getCommand(content);
-				if(command != ''){
-					addLog(content);
-					if(commandStack[commandStack.length-1] == ''){commandStack.pop();}
-					thisStackPointer = commandStack.length;
-					commandStack.push(command);
-					execute(command);
-					$(logsArea).scrollTop($(logsArea).outerHeight());
-					return true;
-				}
-			}
-			executionComplete();
-			return false;
-		}else if( e.keyCode == 38 || e.keyCode == 40){
+			pressEnter();
+		}
+		else if( e.keyCode == 38 || e.keyCode == 40)
+		{
 			commandUpDown(e.keyCode);
 		}
+	}
+	var pressEnter = function(){
+		var content = $(commandInput).val();
+		$(commandInput).attr('disabled',true);
+		$(commandInput).val('');
+		if(getPrefixPosition(content) == 0){		
+			var command = getCommand(content);
+			if(command != ''){
+				addLog(content);
+				if(commandStack[commandStack.length-1] == ''){commandStack.pop();}
+				thisStackPointer = commandStack.length;
+				commandStack.push(command);
+				execute(command);
+				$(logsArea).scrollTop($(logsArea).outerHeight());
+				return true;
+			}
+		}
+		executionComplete();
+		return false;
 	}
 	var commandUpDown = function(code){
 		var content = $(commandInput).val();
@@ -128,30 +134,33 @@ var console =function(){
 			addLog("&nbsp;&nbsp;&nbsp;"+command.toString());
 		}
 	}
-function getPositionForInput(ctrl){ 
-var CaretPos = 0; 
-if (document.selection) { // IE Support 
-ctrl.focus(); 
-var Sel = document.selection.createRange(); 
-Sel.moveStart('character', -ctrl.value.length); 
-CaretPos = Sel.text.length; 
-}else if(ctrl.selectionStart || ctrl.selectionStart == '0'){// Firefox support 
-CaretPos = ctrl.selectionStart; 
-} 
-return (CaretPos); 
-} 
-function setInputPosition(ctrl, pos){ 
-if(ctrl.setSelectionRange){ 
-ctrl.focus(); 
-ctrl.setSelectionRange(pos,pos); 
-} 
-else if (ctrl.createTextRange) { 
-var range = ctrl.createTextRange(); 
-range.collapse(true); 
-range.moveEnd('character', pos); 
-range.moveStart('character', pos); 
-range.select(); 
-} 
-} 
+	var logsClear = function(){
+		$(logsArea).empty();
+	}
+	function getPositionForInput(ctrl){ 
+		var CaretPos = 0; 
+		if (document.selection) {
+			ctrl.focus(); 
+			var Sel = document.selection.createRange(); 
+			Sel.moveStart('character', -ctrl.value.length); 
+			CaretPos = Sel.text.length; 
+		}else if(ctrl.selectionStart || ctrl.selectionStart == '0'){
+			CaretPos = ctrl.selectionStart; 
+		} 
+		return (CaretPos); 
+	} 
+	function setInputPosition(ctrl, pos){ 
+		if(ctrl.setSelectionRange){ 
+			ctrl.focus(); 
+			ctrl.setSelectionRange(pos,pos); 
+		} 
+		else if (ctrl.createTextRange) { 
+			var range = ctrl.createTextRange(); 
+			range.collapse(true); 
+			range.moveEnd('character', pos); 
+			range.moveStart('character', pos); 
+			range.select(); 
+		} 
+	} 
 	init();
 }
