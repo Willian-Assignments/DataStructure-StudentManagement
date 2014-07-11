@@ -17,17 +17,31 @@ var console =function(){
 		bindEvents();
 		initCommands();
 		
-	}
+	};
 	var initCommands = function(){
 		commands.help = shellHelp;
 		commands.clear = logsClear;
+		commands.hidden = hidden;
+	};
+	var hidden = function(){
+		var s0 = new Student;
+		var p = s0;
+		var i = 100;
+		while(--i){
+			p.No = i;
+			p = p.insertNext();
+		}
+		while(p.privous!=null){
+			addLog(p);
+			p= p.privous;
+		}
 	}
 	var setPrefix = function(){
 		prefix = method + promptMark;
-	}
+	};
 	var bindEvents =  function (){
-		$(commandInput).keydown(fixPrefix).keyup(fixPrefixAndPressEnter).mousedown(fixPrefix).mouseup(fixPrefix);
-	}
+		$(commandInput).keydown(fixPrefix).keyup(fixPrefixAndPressKey).mousedown(fixPrefix).mouseup(fixPrefix);
+	};
 	var fixPrefix = function(){
 		var string = $(commandInput).val();
 		var searchD = string.search(prefix);
@@ -41,8 +55,8 @@ var console =function(){
 		if(getPositionForInput(commandInput)<prefix.length){
 			setInputPosition(commandInput, prefix.length);
 		}		
-	}
-	var fixPrefixAndPressEnter = function(e){
+	};
+	var fixPrefixAndPressKey = function(e){
 		fixPrefix();
 		if ( e.keyCode==13 )
 		{
@@ -52,7 +66,7 @@ var console =function(){
 		{
 			commandUpDown(e.keyCode);
 		}
-	}
+	};
 	var pressEnter = function(){
 		var content = $(commandInput).val();
 		$(commandInput).attr('disabled',true);
@@ -71,7 +85,7 @@ var console =function(){
 		}
 		executionComplete();
 		return false;
-	}
+	};
 	var commandUpDown = function(code){
 		var content = $(commandInput).val();
 		if(code == 38){
@@ -90,10 +104,10 @@ var console =function(){
 				$(commandInput).val(prefix+command);
 			}
 		}
-	}
+	};
 	var getPrefixPosition = function(content){
 		return content.search(prefix);
-	}
+	};
 	var getCommand = function(content){
 		if(getPrefixPosition(content) == 0){
 			var command = content.slice(prefix.length);
@@ -102,7 +116,7 @@ var console =function(){
 			}
 		}
 		return '';
-	}
+	};
 	var execute = function (commandString){
 		var commandArray = commandString.split(/\s+/);
 		if(commands[commandArray[0]]){
@@ -116,27 +130,27 @@ var console =function(){
 		}
 		//alert(commandString);
 		executionComplete();
-	}
+	};
 	var executionComplete = function (){
 		$(commandInput).val(prefix);
 		$(commandInput).attr('disabled',false);
-	}
+	};
 	var addLog = function(logString){
 		$(logsArea).append(
 			'<div class="log">'
 			+logString
 			+'</div>'
 		);
-	}
+	};
 	var shellHelp = function(){
 		addLog("Available Commands:");
 		for(var command in commands){
 			addLog("&nbsp;&nbsp;&nbsp;"+command.toString());
 		}
-	}
+	};
 	var logsClear = function(){
 		$(logsArea).empty();
-	}
+	};
 	function getPositionForInput(ctrl){ 
 		var CaretPos = 0; 
 		if (document.selection) {
@@ -148,7 +162,7 @@ var console =function(){
 			CaretPos = ctrl.selectionStart; 
 		} 
 		return (CaretPos); 
-	} 
+	}
 	function setInputPosition(ctrl, pos){ 
 		if(ctrl.setSelectionRange){ 
 			ctrl.focus(); 
@@ -163,4 +177,4 @@ var console =function(){
 		} 
 	} 
 	init();
-}
+};
