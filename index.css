@@ -1,18 +1,21 @@
-*{
-	padding: 0;
-	margin: 0;
-}
 
 body{
-	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	color:white;
 }
 .no-wrap{
 	text-overflow: ellipsis;
 	overflow-x: hidden;
 	white-space: nowrap;
 }
-#console{
 
+#console,
+#console *{
+	padding: 0;
+	margin: 0;
+}
+
+#console{
+	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	position: fixed;
 	border: 3px gray solid;
 	height: 200px;
