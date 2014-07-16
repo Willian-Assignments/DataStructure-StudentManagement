@@ -1,19 +1,41 @@
-//Global Method
+//Globals
 var inherit = function(subclass,superclass){
 	subclass.method = superclass;
 	subclass.method();
 	delete subclass.method;
 };
+var globalNodes=[];
 //predefines
+Array.prototype.remove=function(dx) 
+{ 
+    if(isNaN(dx)||dx>this.length){return false;} 
+    for(var i=0,n=0;i<this.length;i++) 
+    { 
+        if(this[i]!=this[dx]) 
+        { 
+            this[n++]=this[i] ;
+        } 
+    } 
+    this.length-=1 ;
+} ;
 var curriculum = new Array();
 curriculum = {
-	"000000":"未定义",
-	"201401":"2014学年第1学期",
+	000000:"未定义",
+	201401:"2014学年第1学期",
 };
 //Abstract Classes
 var Node = function(){
+	"use strict";
 	this.key = null;
-
+	
+	this.init = function(){
+		var node = new this.constructor;
+		globalNodes.push(node);
+		return node;
+	};
+	this.delloc = function(){
+		globalNodes.remove(node);
+	};
 	//Overrides
 	this.valueOf = function (){
 		if(this.key!=null){
@@ -58,7 +80,7 @@ var Chain = function(){
 		if(this.next!=null){
 			this.next.deleteAllNexts();
 		}
-		delete this;
+		var d= delete this;
 		return;
 	};
 	//Lookup

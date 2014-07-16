@@ -7,7 +7,9 @@ body{
 	overflow-x: hidden;
 	white-space: nowrap;
 }
-
+#UI{
+	margin-bottom: 200px;
+}
 #console,
 #console *{
 	padding: 0;

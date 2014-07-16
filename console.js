@@ -26,7 +26,7 @@ var console =function(){
 	var hidden = function(){
 		var s0 = new Student;
 		var p = s0;
-		var i = 100;
+		var i = 5;
 		while(--i){
 			p.No = i;
 			p = p.insertNext();
@@ -35,6 +35,8 @@ var console =function(){
 			addLog(p);
 			p= p.privous;
 		}
+		p.deleteAllNexts();
+		show = p;
 	}
 	var setPrefix = function(){
 		prefix = method + promptMark;

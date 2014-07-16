@@ -1,50 +1,65 @@
 Ext.application({
 	name   : 'StudentManagement',
 	launch : function() {
+		var title = {
+	            xtype: 'box',
+	            id: 'header',
+	            region: 'north',
+	            style		: 'color:white',
+	            html: '<h1>学生信息管理</h1>',
+	            height: 50,
+	            margins: '0 0 0 20',
+	        };
+		var toolbar = {
+	            xtype: 'toolbar',
+	            id: 'toolbar',
+	            region: 'north',
+	            items : [
+	            	{
+		            	text: '+',
+				        url: '#',
+/*
+				        baseParams: {
+				            q: 'html+anchor+tag'
+				        },
+*/
+				        tooltip: '按钮1'
+	            	}
+	            ]
+	        };
+
 	    var contentPanel = {
 	            id: 'content-panel',
 	            region: 'center', 
 	            layout: 'card',
-	            margins: '2 5 5 0',
+	            margins: '2 5 205 0',
 	            activeItem: 0,
 	            border: false,
 	            html: '内容'
 	        };
 	    
 		var treePanel = {
-				xtype		:'panel',
+				margins: '0 0 205 0',
+				xtype		 :'panel',
 				width        : 250,
-				region: 'west',
-				collapsible: true,
+				region		 : 'west',
+				collapsible	 : false,
 	            title        : '所有寝室',
 	            html         : '',
 	            split: true
 	    };
 		
-		Ext.create('Ext.Viewport', {
-	        layout: 'border',
-	        title: '学生管理',
-	        items: [{
-	            xtype: 'box',
-	            id: 'header',
-	            region: 'north',
-	            html: '<h1> 学生管理</h1>',
-	            height: 50
-	        },treePanel,
-//	        },{
-//	            layout: 'border',
-//	            id: 'layout-browser',
-//	            region:'west',
-//	            border: false,
-//	            split:true,
-//	            margins: '2 0 5 5',
-//	            width: 290,
-//	            minSize: 100,
-//	            maxSize: 500,
-//	            items: [treePanel]
-//	        },
+		Ext.create('Ext.container.Viewport', {
+	        layout			: 'border',
+	        title			: '学生管理',
+	        items			: [
+	            title,
+	            toolbar,
+	        	treePanel,
 	            contentPanel
 	        ]
 	    });
+	        
+
     }
 });
