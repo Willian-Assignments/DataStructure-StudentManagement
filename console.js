@@ -35,6 +35,7 @@ var console =function(){
 			addLog(p);
 			p= p.privous;
 		}
+		addLog(p);
 		p.deleteAllNexts();
 		show = p;
 	}

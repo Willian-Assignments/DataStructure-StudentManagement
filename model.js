@@ -6,18 +6,23 @@ var inherit = function(subclass,superclass){
 };
 var globalNodes=[];
 //predefines
-Array.prototype.remove=function(dx) 
-{ 
-    if(isNaN(dx)||dx>this.length){return false;} 
-    for(var i=0,n=0;i<this.length;i++) 
-    { 
-        if(this[i]!=this[dx]) 
-        { 
-            this[n++]=this[i] ;
-        } 
-    } 
-    this.length-=1 ;
-} ;
+Array.prototype.indexOf = function(val) {
+	for (var i = 0; i < this.length; i++) {
+		if (this[i] == val) return i;
+	}
+	return -1;
+};
+Array.prototype.remove = function(val) {
+	var index = this.indexOf(val);
+	if (index > -1) {
+		this.splice(index, 1);
+	}
+};
+var error = function(str){
+	if(console){
+		console.error(str);
+	}
+}
 var curriculum = new Array();
 curriculum = {
 	000000:"未定义",
@@ -28,13 +33,13 @@ var Node = function(){
 	"use strict";
 	this.key = null;
 	
+	//@not used
 	this.init = function(){
-		var node = new this.constructor;
-		globalNodes.push(node);
-		return node;
+		globalNodes.push(this);
 	};
 	this.delloc = function(){
-		globalNodes.remove(node);
+		globalNodes.remove(this);
+		delete this;
 	};
 	//Overrides
 	this.valueOf = function (){
@@ -56,7 +61,99 @@ var BST = function(){
 	this.lChild = null;
 	this.rChild = null;
 	this.parent = null;
+	
+	//Constructor
+	this.insertNew = function(){
+		var chain = new this.constructor;
+		this.insert(chain);
+		return chain;
+	};
+	//Delete
+	this.deleteAllLefts = function(){
+		if(this.lChild !=null){
+			this.disconnectLeft();
+		}else{
+			return;
+		}
+	};
+	this.deleteAllRights = function(){
+		if(this.lChild !=null){
+			this.disconnectRight();
+		}else{
+			return;
+		}
+	};
+	//Lookup
+	this.findRoot = function(){
+		var pointer = this;
+		while(pointer.parent!=null){
+			pointer = pointer.parent;
+		}
+		return pointer;
+	}
+	this.allNodes = function(){
+		var rootNode = this.findRoot();
+		var stack = [rootNode];
+		stack = rootNode.getChildren();
+		return stack;
+	}
+	var getChildren = function(){
+		var tampStack = [this];
+		if(this.lChild!=null){
+			tampStack += this.lChild.getChildren();
+		}
+		if(this.rChild!=null){
+			tampStack += this.rChild.getChildren();
+		}
+		return tampStack;
+	}
+	this.exist = function(node){
+		var stack = this.allNodes();
+		if(stack.indexOf(node)==-1){
+			return false;
+		}
+		return true;
+	}
+	//Method
+	this.insertNode = function(node){
+		if(this==node){
+			return;
+		}else if(this<node){
+			if(this.lChild==null){
+				this.lChild = node;
+				node.parent = this;
+			}else{
+				this.lChild.insertNode(node);
+			}
+		}else if(this>node){
+			if(this.rChild==null){
+				this.rChild = node;
+				node.parent = this;
+			}else{
+				this.rChild.insertNode(node);
+			}
+		}else{
+			error("Error Insert Node:"+this);
+		}
+	};
+	this.disconnectLeft = function(){
+		if(this.lChild.parent === this){
+			this.lChild.parent = null;
+			this.lChild		 = null;
+			return true;
+		}
+		return false;
+	};
+	this.disconnectRight = function(){
+		if(this.rChild.parent === this){
+			this.rChild.parent = null;
+			this.rChild		 = null;
+			return true;
+		}
+		return false;
+	};
 
+	
 	return this;
 };
 
@@ -79,9 +176,18 @@ var Chain = function(){
 	this.deleteAllNexts = function(){
 		if(this.next!=null){
 			this.next.deleteAllNexts();
+		}else{
+			return;
 		}
-		var d= delete this;
-		return;
+		return this.disconnectNext();
+	};
+	this.deleteAllPrivous = function(){
+		if(this.privous!=null){
+			this.privous.deleteAllPrivous();
+		}else{
+			return;
+		}
+		return this.disconnectPrivous();
 	};
 	//Lookup
 	this.findBegin = function(){
@@ -91,6 +197,30 @@ var Chain = function(){
 			return this;
 		}
 	};
+	this.findEnd = function(){
+		if(this.next!=null){
+			return this.next.findEnd();
+		}else{
+			return this;
+		}
+	};
+	this.allNodes = function(){
+		var pointer = this.findBegin();
+		var stack = [];
+		stack.push(pointer);
+		while(pointer.next!=null){
+			stack.push(pointer.next);
+			pointer = pointer.next;
+		}
+		return stack;
+	}
+	this.exist = function(node){
+		var stack = this.allNodes();
+		if(stack.indexOf(node)==-1){
+			return false;
+		}
+		return true;
+	}
 	//Method
 	this.connectNext = function(chain){
 		this.next 		= chain;
@@ -103,7 +233,7 @@ var Chain = function(){
 	this.disconnectNext = function(){
 		if(this.next.privous === this){
 			this.next.privous = null;
-			this.next 		  = null;
+			this.next 			 = null;
 			return true;
 		}
 		return false;
@@ -123,7 +253,7 @@ var Chain = function(){
 var Dormitory  = function(){
 	inherit(this,BST);
 	this.number			 = -1; 
-	this.head   = null;
+	this.head	 = null;
 
 	this.key = function(){
 		return this.number;
